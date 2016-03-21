@@ -155,7 +155,7 @@ names(melted_together)[4] <- "weight"
 Want to keep only the strong correlations for visualization in our network.
 
 ```r
-#filter for correlation about 0.6 and p value less than 0.01
+#filter for correlation above 0.6 and p-value less than 0.01
 filtered_data <- filter(melted_together,
                         p_value <= 0.01  & abs(weight) > 0.6)
 
@@ -194,7 +194,7 @@ filtered_data
 Make a network from the dataframe using igraph.
 
 ```r
-graph <- graph.data.frame(filtered_data,
+graph_dune <- graph.data.frame(filtered_data,
                           directed=FALSE)
 ```
 
@@ -202,7 +202,7 @@ graph <- graph.data.frame(filtered_data,
 We can quickly visualize the network using igraph.
 
 ```r
-plot(graph)
+plot(graph_dune)
 ```
 
 ![](cyrest_cytoscape_tutorial_files/figure-html/unnamed-chunk-6-1.png)
@@ -215,8 +215,8 @@ plot(graph)
 - helpful websites: http://www.pgbovine.net/rest-web-api-basics.htm
 - uses verbs used in http to receive and send data
 - verbs we will use today are:
-    - GET - read the resource
-    - POST - send the resource
+    - GET - read/retrieve the resource
+    - POST - send/create the resource
     - PUT - update the resource
     - DELETE - deletes specified resource
 
@@ -228,7 +228,6 @@ We will be using [cyREST](https://github.com/idekerlab/cyREST/wiki) today to sen
 
 ```r
 source("./cyrest_cytoscape_functions.R")
-# Basic settings
 
 ## The port number can be customized in cytoscape if desired. Would need to use Cytoscape
 ## Preference Editor (Edit <- Preferences) and modify "rest.port" to your desired port. 
@@ -268,7 +267,7 @@ cy.version
 
 
 ```r
-cygraph <- toCytoscape(graph) ## sends an igraph object to Cytoscape
+cygraph <- toCytoscape(graph_dune) ## sends an igraph object to Cytoscape
 ```
 
 ```
@@ -294,9 +293,9 @@ res <- POST(url=network.url,
 
 Will appear in Cytoscape. Will not have any fancy styles and might actually just look like one square since all of the nodes will be on top of each other. We will play around with the network in Cytoscape for a few minutes and look at the Node Table, the Edge Table and the Style panel. 
 
-Could show something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
+Could do something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
 
-# Show how this style info is stored in the REST API
+# Show how this style info is sent to Cytoscape via the REST API
 
 
 ```r
@@ -309,7 +308,7 @@ GET(url=default.style.url)
 
 ```
 ## Response [http://localhost:1234/v1/styles/default]
-##   Date: 2016-03-21 18:17
+##   Date: 2016-03-21 18:43
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 9.83 kB
@@ -351,7 +350,7 @@ network.suid
 ```
 
 ```
-## [1] 676
+## [1] 1092
 ```
 
 ```r
@@ -366,8 +365,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/676]
-##   Date: 2016-03-21 18:17
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/1092]
+##   Date: 2016-03-21 18:43
 ##   Status: 404
 ##   Content-Type: <unknown>
 ## <EMPTY BODY>
@@ -375,8 +374,8 @@ GET(apply.style.url)
 
 ```r
 # Edge Line Size Mapping
-min.weight <-  min(edge.attributes(graph)$weight)
-max.weight <-  max(edge.attributes(graph)$weight)
+min.weight <-  min(edge.attributes(graph_dune)$weight)
+max.weight <-  max(edge.attributes(graph_dune)$weight)
 
 point1 <-  list(
   value = min.weight,
@@ -420,7 +419,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 18:17
+##   Date: 2016-03-21 18:43
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 25 B
@@ -440,8 +439,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/676]
-##   Date: 2016-03-21 18:17
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/1092]
+##   Date: 2016-03-21 18:43
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -451,9 +450,6 @@ GET(apply.style.url)
 ## No encoding supplied: defaulting to UTF-8.
 ```
 
-
-
-
 # Add the metadata to the network in R
 
 
@@ -462,23 +458,23 @@ data(dune.taxon)
 
 ## add the taxonomic information to the graph
 
-V(graph)$Genus <- dune.taxon$Genus[match(V(graph)$name,
+V(graph_dune)$Genus <- dune.taxon$Genus[match(V(graph_dune)$name,
                                          row.names(dune.taxon))]
 
-V(graph)$Family <- dune.taxon$Family[match(V(graph)$name,
+V(graph_dune)$Family <- dune.taxon$Family[match(V(graph_dune)$name,
                                            row.names(dune.taxon))]
 
-V(graph)$Order <- dune.taxon$Order[match(V(graph)$name,
+V(graph_dune)$Order <- dune.taxon$Order[match(V(graph_dune)$name,
                                          row.names(dune.taxon))]
 
-V(graph)$Subclass <- dune.taxon$Subclass[match(V(graph)$name,
+V(graph_dune)$Subclass <- dune.taxon$Subclass[match(V(graph_dune)$name,
                                                row.names(dune.taxon))]
 
-V(graph)$Class <- dune.taxon$Class[match(V(graph)$name,
+V(graph_dune)$Class <- dune.taxon$Class[match(V(graph_dune)$name,
                                          row.names(dune.taxon))]
 
 ## We can also, for example, add the degree of each vertex to the graph
-V(graph)$degree <- degree(graph)
+V(graph_dune)$degree <- degree(graph_dune)
 ```
 
 
@@ -487,7 +483,7 @@ V(graph)$degree <- degree(graph)
 
 ```r
 resetCytoscapeSession(port.number)
-cygraph <- toCytoscape(graph)
+cygraph <- toCytoscape(graph_dune)
 ```
 
 ```
@@ -508,7 +504,7 @@ network.suid
 ```
 
 ```
-## [1] 780
+## [1] 1196
 ```
 
 ```r
@@ -528,7 +524,7 @@ PUT(layout.params.url,
 
 ```
 ## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/parameters]
-##   Date: 2016-03-21 18:17
+##   Date: 2016-03-21 18:43
 ##   Status: 200
 ##   Content-Type: application/json
 ## <EMPTY BODY>
@@ -543,8 +539,8 @@ GET(apply.layout.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/780]
-##   Date: 2016-03-21 18:17
+## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/1196]
+##   Date: 2016-03-21 18:43
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 30 B
@@ -553,7 +549,6 @@ GET(apply.layout.url)
 ```
 ## No encoding supplied: defaulting to UTF-8.
 ```
-
 
 # Send style info to cytoscape
 
@@ -569,7 +564,7 @@ network.suid
 ```
 
 ```
-## [1] 780
+## [1] 1196
 ```
 
 ```r
@@ -584,8 +579,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/780]
-##   Date: 2016-03-21 18:17
+## Response [http://localhost:1234/v1/apply/styles/new_style/1196]
+##   Date: 2016-03-21 18:43
 ##   Status: 404
 ##   Content-Type: <unknown>
 ## <EMPTY BODY>
@@ -625,7 +620,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 18:17
+##   Date: 2016-03-21 18:43
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 22 B
@@ -645,8 +640,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/780]
-##   Date: 2016-03-21 18:17
+## Response [http://localhost:1234/v1/apply/styles/new_style/1196]
+##   Date: 2016-03-21 18:43
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -656,13 +651,10 @@ GET(apply.style.url)
 ## No encoding supplied: defaulting to UTF-8.
 ```
 
-
+## Or could use RColorBrewer to automate it:
 
 
 ```r
-## Or could use RColorBrewer to automate it a bit:
-
-
 unique_class_dune <- unique(dune.taxon$Class)
 
 colour_class <- brewer.pal(length(unique_class_dune), "Accent")
@@ -690,7 +682,6 @@ mappings = list(node_colour_style
 # How can you use this to automate some of your analysis
 
 
-
 ## Save images from cytoscape
 
 This will save your current network in Cytoscape as a png or a pdf. 
@@ -708,7 +699,7 @@ network.image.url
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/780/views/first.png?h=1500"
+## [1] "http://localhost:1234/v1/networks/1196/views/first.png?h=1500"
 ```
 
 ```r
@@ -723,7 +714,7 @@ network.image.url_pdf
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/780/views/first.pdf"
+## [1] "http://localhost:1234/v1/networks/1196/views/first.pdf"
 ```
 
 ```r

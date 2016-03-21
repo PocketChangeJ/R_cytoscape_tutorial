@@ -64,7 +64,7 @@ names(melted_together)[4] <- "weight"
 
 Want to keep only the strong correlations for visualization in our network.
 ```{r}
-#filter for correlation above 0.6 and p value less than 0.01
+#filter for correlation above 0.6 and p-value less than 0.01
 filtered_data <- filter(melted_together,
                         p_value <= 0.01  & abs(weight) > 0.6)
 
@@ -78,14 +78,14 @@ filtered_data
 
 Make a network from the dataframe using igraph.
 ```{r}
-graph <- graph.data.frame(filtered_data,
+graph_dune <- graph.data.frame(filtered_data,
                           directed=FALSE)
 ```
 
 
 We can quickly visualize the network using igraph.
 ```{r}
-plot(graph)
+plot(graph_dune)
 ```
 
 
@@ -135,7 +135,7 @@ cy.version
 # Send network to Cytoscape
 
 ```{r}
-cygraph <- toCytoscape(graph) ## sends an igraph object to Cytoscape
+cygraph <- toCytoscape(graph_dune) ## sends an igraph object to Cytoscape
 network.url <-  paste(base.url,
                       "networks",
                       sep="/")
@@ -156,7 +156,7 @@ Will appear in Cytoscape. Will not have any fancy styles and might actually just
 
 Could do something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
 
-# Show how this style info is stored in the REST API
+# Show how this style info is sent to Cytoscape via the REST API
 
 ```{r}
 ## look at default
@@ -184,8 +184,8 @@ apply.style.url <-  paste(base.url,
 GET(apply.style.url)
 
 # Edge Line Size Mapping
-min.weight <-  min(edge.attributes(graph)$weight)
-max.weight <-  max(edge.attributes(graph)$weight)
+min.weight <-  min(edge.attributes(graph_dune)$weight)
+max.weight <-  max(edge.attributes(graph_dune)$weight)
 
 point1 <-  list(
   value = min.weight,
@@ -235,9 +235,6 @@ GET(apply.style.url)
 
 ```
 
-
-
-
 # Add the metadata to the network in R
 
 ```{r}
@@ -245,23 +242,23 @@ data(dune.taxon)
 
 ## add the taxonomic information to the graph
 
-V(graph)$Genus <- dune.taxon$Genus[match(V(graph)$name,
+V(graph_dune)$Genus <- dune.taxon$Genus[match(V(graph_dune)$name,
                                          row.names(dune.taxon))]
 
-V(graph)$Family <- dune.taxon$Family[match(V(graph)$name,
+V(graph_dune)$Family <- dune.taxon$Family[match(V(graph_dune)$name,
                                            row.names(dune.taxon))]
 
-V(graph)$Order <- dune.taxon$Order[match(V(graph)$name,
+V(graph_dune)$Order <- dune.taxon$Order[match(V(graph_dune)$name,
                                          row.names(dune.taxon))]
 
-V(graph)$Subclass <- dune.taxon$Subclass[match(V(graph)$name,
+V(graph_dune)$Subclass <- dune.taxon$Subclass[match(V(graph_dune)$name,
                                                row.names(dune.taxon))]
 
-V(graph)$Class <- dune.taxon$Class[match(V(graph)$name,
+V(graph_dune)$Class <- dune.taxon$Class[match(V(graph_dune)$name,
                                          row.names(dune.taxon))]
 
 ## We can also, for example, add the degree of each vertex to the graph
-V(graph)$degree <- degree(graph)
+V(graph_dune)$degree <- degree(graph_dune)
 
 
 ```
@@ -271,7 +268,7 @@ V(graph)$degree <- degree(graph)
 
 ```{r}
 resetCytoscapeSession(port.number)
-cygraph <- toCytoscape(graph)
+cygraph <- toCytoscape(graph_dune)
 network.url <-  paste(base.url,
                       "networks",
                       sep="/")
@@ -303,7 +300,6 @@ apply.layout.url = paste(base.url,
 GET(apply.layout.url)
 
 ```
-
 
 # Send style info to cytoscape
 
@@ -366,11 +362,9 @@ GET(apply.style.url)
 
 ```
 
-
+## Or could use RColorBrewer to automate it:
 
 ```{r}
-## Or could use RColorBrewer to automate it a bit:
-
 
 unique_class_dune <- unique(dune.taxon$Class)
 
@@ -397,7 +391,6 @@ mappings = list(node_colour_style
 
 
 # How can you use this to automate some of your analysis
-
 
 
 ## Save images from cytoscape
