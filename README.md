@@ -6,7 +6,7 @@ There are lots of great ways to make simple networks in R. A non-exhaustive list
 
 - Diagrammer https://github.com/rich-iannone/DiagrammeR
 - igraph http://igraph.org/r/
-- ggraph (https://github.com/thomasp85/ggraph)
+- ggraph https://github.com/thomasp85/ggraph
 
 
 This tutorial is aimed at:

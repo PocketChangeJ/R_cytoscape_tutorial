@@ -10,5 +10,5 @@
     - Select cyREST
     - Click install
   
-- R packages: RJSONIO and igraph
-    - from R run: ```install.packages(c("RJSONIO", "igraph"))```
+- R packages: RJSONIO, igraph, httr, dplyr, reshape2, Hmisc, vegan
+    - from R run (editing as necessary based on already installed packages): ```install.packages(c("RJSONIO", "igraph", "httr", "dplyr", "reshape2", "Hmisc", "vegan"))```
