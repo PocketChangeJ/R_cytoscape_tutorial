@@ -64,7 +64,7 @@ names(melted_together)[4] <- "weight"
 
 Want to keep only the strong correlations for visualization in our network.
 ```{r}
-#filter for correlation about 0.6 and p value less than 0.01
+#filter for correlation above 0.6 and p value less than 0.01
 filtered_data <- filter(melted_together,
                         p_value <= 0.01  & abs(weight) > 0.6)
 
@@ -85,7 +85,7 @@ graph <- graph.data.frame(filtered_data,
 
 We can quickly visualize the network using igraph.
 ```{r}
-plot(graph) # using igraph
+plot(graph)
 ```
 
 
@@ -96,8 +96,8 @@ plot(graph) # using igraph
 - helpful websites: http://www.pgbovine.net/rest-web-api-basics.htm
 - uses verbs used in http to receive and send data
 - verbs we will use today are:
-    - GET - read the resource
-    - POST - send the resource
+    - GET - read/retrieve the resource
+    - POST - send/create the resource
     - PUT - update the resource
     - DELETE - deletes specified resource
 
@@ -108,7 +108,6 @@ We will be using [cyREST](https://github.com/idekerlab/cyREST/wiki) today to sen
 
 ```{r}
 source("./cyrest_cytoscape_functions.R")
-# Basic settings
 
 ## The port number can be customized in cytoscape if desired. Would need to use Cytoscape
 ## Preference Editor (Edit <- Preferences) and modify "rest.port" to your desired port. 
@@ -155,7 +154,7 @@ res <- POST(url=network.url,
 
 Will appear in Cytoscape. Will not have any fancy styles and might actually just look like one square since all of the nodes will be on top of each other. We will play around with the network in Cytoscape for a few minutes and look at the Node Table, the Edge Table and the Style panel. 
 
-Could show something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
+Could do something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
 
 # Show how this style info is stored in the REST API
 
@@ -272,7 +271,7 @@ V(graph)$degree <- degree(graph)
 
 ```{r}
 resetCytoscapeSession(port.number)
-cygraph <- toCytoscape(graph) ## so what does this do?
+cygraph <- toCytoscape(graph)
 network.url <-  paste(base.url,
                       "networks",
                       sep="/")

@@ -12,7 +12,7 @@ Make sure Cytoscape is open while running these commands in R!
 
 # Make simple network in R
 
-Load necessary libraries for the tutorial. 
+Load necessary packages for the tutorial. 
 
 ```r
 library(vegan)
@@ -202,7 +202,7 @@ graph <- graph.data.frame(filtered_data,
 We can quickly visualize the network using igraph.
 
 ```r
-plot(graph) # using igraph
+plot(graph)
 ```
 
 ![](cyrest_cytoscape_tutorial_files/figure-html/unnamed-chunk-6-1.png)
@@ -309,7 +309,7 @@ GET(url=default.style.url)
 
 ```
 ## Response [http://localhost:1234/v1/styles/default]
-##   Date: 2016-03-21 17:59
+##   Date: 2016-03-21 18:17
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 9.83 kB
@@ -351,7 +351,7 @@ network.suid
 ```
 
 ```
-## [1] 468
+## [1] 676
 ```
 
 ```r
@@ -366,8 +366,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/468]
-##   Date: 2016-03-21 17:59
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/676]
+##   Date: 2016-03-21 18:17
 ##   Status: 404
 ##   Content-Type: <unknown>
 ## <EMPTY BODY>
@@ -420,7 +420,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 17:59
+##   Date: 2016-03-21 18:17
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 25 B
@@ -440,8 +440,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/468]
-##   Date: 2016-03-21 17:59
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/676]
+##   Date: 2016-03-21 18:17
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -487,7 +487,7 @@ V(graph)$degree <- degree(graph)
 
 ```r
 resetCytoscapeSession(port.number)
-cygraph <- toCytoscape(graph) ## so what does this do?
+cygraph <- toCytoscape(graph)
 ```
 
 ```
@@ -508,7 +508,7 @@ network.suid
 ```
 
 ```
-## [1] 572
+## [1] 780
 ```
 
 ```r
@@ -528,7 +528,7 @@ PUT(layout.params.url,
 
 ```
 ## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/parameters]
-##   Date: 2016-03-21 17:59
+##   Date: 2016-03-21 18:17
 ##   Status: 200
 ##   Content-Type: application/json
 ## <EMPTY BODY>
@@ -543,8 +543,8 @@ GET(apply.layout.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/572]
-##   Date: 2016-03-21 17:59
+## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/780]
+##   Date: 2016-03-21 18:17
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 30 B
@@ -569,7 +569,7 @@ network.suid
 ```
 
 ```
-## [1] 572
+## [1] 780
 ```
 
 ```r
@@ -584,8 +584,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/572]
-##   Date: 2016-03-21 17:59
+## Response [http://localhost:1234/v1/apply/styles/new_style/780]
+##   Date: 2016-03-21 18:17
 ##   Status: 404
 ##   Content-Type: <unknown>
 ## <EMPTY BODY>
@@ -625,7 +625,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 17:59
+##   Date: 2016-03-21 18:17
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 22 B
@@ -645,8 +645,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/572]
-##   Date: 2016-03-21 17:59
+## Response [http://localhost:1234/v1/apply/styles/new_style/780]
+##   Date: 2016-03-21 18:17
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -708,7 +708,7 @@ network.image.url
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/572/views/first.png?h=1500"
+## [1] "http://localhost:1234/v1/networks/780/views/first.png?h=1500"
 ```
 
 ```r
@@ -723,7 +723,7 @@ network.image.url_pdf
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/572/views/first.pdf"
+## [1] "http://localhost:1234/v1/networks/780/views/first.pdf"
 ```
 
 ```r
