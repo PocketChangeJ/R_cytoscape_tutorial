@@ -102,7 +102,7 @@ plot(graph_dune)
 We will be using [cyREST](https://github.com/idekerlab/cyREST/wiki) today to send and receive data from R to Cytoscape. 
 
 
-# Setting up your R script
+# Setting up R to send data to Cytoscape
 
 ```{r}
 source("./cyrest_cytoscape_functions.R")
@@ -148,14 +148,12 @@ res <- POST(url=network.url,
 
 # Check out network in Cytoscape
 
-- what are the main views of the network
-- where can you see the data? etc
-- how can you change how it looks?
 
 
-Will appear in Cytoscape. Will not have any fancy styles and might actually just look like one square since all of the nodes will be on top of each other. We will play around with the network in Cytoscape for a few minutes and look at the Node Table, the Edge Table and the Style panel. 
 
-Could do something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
+The network will appear in Cytoscape. It will not have any fancy styles and might actually just look like one square since all of the nodes will be on top of each other. Play around with the network in Cytoscape for a few minutes and look at the Node Table, the Edge Table and the Style panel. 
+
+To do by hand what we will automate you could do something like Style <- Edge <- Width <- weight <- "Continuous mapping" (and can then click on "Create Legend" to get a legend that maps to the style you have created.)
 
 # Show how this style info is sent to Cytoscape via the REST API
 
