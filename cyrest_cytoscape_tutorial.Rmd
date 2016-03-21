@@ -28,6 +28,7 @@ library(dplyr)
 library(igraph)
 library(RJSONIO)
 library(httr)
+library(RColorBrewer)
 ```
 
 Load dataset for use today
@@ -369,8 +370,8 @@ GET(apply.style.url)
 
 
 ```{r}
-## Or could use R to automate it a bit:
-library(RColorBrewer)
+## Or could use RColorBrewer to automate it a bit:
+
 
 unique_class_dune <- unique(dune.taxon$Class)
 

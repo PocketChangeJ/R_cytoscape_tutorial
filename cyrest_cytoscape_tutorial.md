@@ -22,6 +22,7 @@ library(dplyr)
 library(igraph)
 library(RJSONIO)
 library(httr)
+library(RColorBrewer)
 ```
 
 Load dataset for use today
@@ -308,7 +309,7 @@ GET(url=default.style.url)
 
 ```
 ## Response [http://localhost:1234/v1/styles/default]
-##   Date: 2016-03-21 17:55
+##   Date: 2016-03-21 17:59
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 9.83 kB
@@ -350,7 +351,7 @@ network.suid
 ```
 
 ```
-## [1] 260
+## [1] 468
 ```
 
 ```r
@@ -365,8 +366,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/260]
-##   Date: 2016-03-21 17:55
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/468]
+##   Date: 2016-03-21 17:59
 ##   Status: 404
 ##   Content-Type: <unknown>
 ## <EMPTY BODY>
@@ -419,7 +420,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 17:55
+##   Date: 2016-03-21 17:59
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 25 B
@@ -439,8 +440,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/260]
-##   Date: 2016-03-21 17:55
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/468]
+##   Date: 2016-03-21 17:59
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -507,7 +508,7 @@ network.suid
 ```
 
 ```
-## [1] 364
+## [1] 572
 ```
 
 ```r
@@ -527,7 +528,7 @@ PUT(layout.params.url,
 
 ```
 ## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/parameters]
-##   Date: 2016-03-21 17:55
+##   Date: 2016-03-21 17:59
 ##   Status: 200
 ##   Content-Type: application/json
 ## <EMPTY BODY>
@@ -542,8 +543,8 @@ GET(apply.layout.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/364]
-##   Date: 2016-03-21 17:55
+## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/572]
+##   Date: 2016-03-21 17:59
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 30 B
@@ -568,7 +569,7 @@ network.suid
 ```
 
 ```
-## [1] 364
+## [1] 572
 ```
 
 ```r
@@ -583,8 +584,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/364]
-##   Date: 2016-03-21 17:55
+## Response [http://localhost:1234/v1/apply/styles/new_style/572]
+##   Date: 2016-03-21 17:59
 ##   Status: 404
 ##   Content-Type: <unknown>
 ## <EMPTY BODY>
@@ -624,7 +625,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 17:55
+##   Date: 2016-03-21 17:59
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 22 B
@@ -644,8 +645,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/364]
-##   Date: 2016-03-21 17:55
+## Response [http://localhost:1234/v1/apply/styles/new_style/572]
+##   Date: 2016-03-21 17:59
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -659,8 +660,8 @@ GET(apply.style.url)
 
 
 ```r
-## Or could use R to automate it a bit:
-library(RColorBrewer)
+## Or could use RColorBrewer to automate it a bit:
+
 
 unique_class_dune <- unique(dune.taxon$Class)
 
@@ -707,7 +708,7 @@ network.image.url
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/364/views/first.png?h=1500"
+## [1] "http://localhost:1234/v1/networks/572/views/first.png?h=1500"
 ```
 
 ```r
@@ -722,7 +723,7 @@ network.image.url_pdf
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/364/views/first.pdf"
+## [1] "http://localhost:1234/v1/networks/572/views/first.pdf"
 ```
 
 ```r
