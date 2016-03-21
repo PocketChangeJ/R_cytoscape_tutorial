@@ -7,11 +7,9 @@ output:
     keep_md: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Installation
+
+See [Install.md](./Install.md)
 
 Any woes?
 
@@ -129,16 +127,19 @@ cytoscape.version = GET(version.url)
 
 cy.version = fromJSON(rawToChar(cytoscape.version$content))
 cy.version
+
 ```
 
 
 # Send network to Cytoscape
 
 ```{r}
-cygraph <- toCytoscape(graph_dune) ## sends an igraph object to Cytoscape
+cygraph <- toCytoscape(graph_dune) ## formats an igraph object to json for sending to Cytoscape
+
 network.url <-  paste(base.url,
                       "networks",
                       sep="/")
+
 res <- POST(url=network.url,
             body=cygraph,
             encode="json")
@@ -163,7 +164,7 @@ Could do something like Style <- Edge <- Width <- weight <- "Continuous mapping"
 default.style.url = paste(base.url,
                           "styles/default",
                           sep="/")
-GET(url=default.style.url)
+GET(url=default.style.url) ## shows a snippet of the json
 default.style.url
 ```
 
@@ -181,8 +182,6 @@ apply.style.url <-  paste(base.url,
                           style.name,
                           toString(network.suid),
                           sep="/")
-GET(apply.style.url)
-
 # Edge Line Size Mapping
 min.weight <-  min(edge.attributes(graph_dune)$weight)
 max.weight <-  max(edge.attributes(graph_dune)$weight)
@@ -222,6 +221,8 @@ style.JSON <- toJSON(style)
 style.url <-  paste(base.url,
                     "styles",
                     sep="/")
+
+## sends the style to cytoscape. Available to apply to network
 POST(url = style.url,
      body = style.JSON,
      encode = "json")
@@ -231,6 +232,8 @@ apply.style.url <-  paste(base.url,
                           style.name,
                           toString(network.suid),
                           sep="/")
+
+## applies the style to the network
 GET(apply.style.url)
 
 ```
@@ -286,13 +289,6 @@ layout.params = list(
   value=TRUE
 )
 
-layout.params.url = paste(base.url,
-                          "apply/layouts/kamada-kawai/parameters",
-                          sep="/")
-PUT(layout.params.url,
-    body=toJSON(list(layout.params)),
-    encode = "json")
-
 apply.layout.url = paste(base.url,
                          "apply/layouts/kamada-kawai",
                          toString(network.suid),
@@ -320,7 +316,7 @@ apply.style.url <-  paste(base.url,
                           style.name,
                           toString(network.suid),
                           sep="/")
-GET(apply.style.url)
+#GET(apply.style.url)
 
 
 ## Could assign each Class a specific colour like this:

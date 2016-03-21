@@ -2,9 +2,9 @@
 Julia Gustavsen  
 March 21, 2016  
 
-
-
 # Installation
+
+See [Install.md](./Install.md)
 
 Any woes?
 
@@ -267,7 +267,7 @@ cy.version
 
 
 ```r
-cygraph <- toCytoscape(graph_dune) ## sends an igraph object to Cytoscape
+cygraph <- toCytoscape(graph_dune) ## formats an igraph object to json for sending to Cytoscape
 ```
 
 ```
@@ -278,6 +278,7 @@ cygraph <- toCytoscape(graph_dune) ## sends an igraph object to Cytoscape
 network.url <-  paste(base.url,
                       "networks",
                       sep="/")
+
 res <- POST(url=network.url,
             body=cygraph,
             encode="json")
@@ -303,12 +304,12 @@ Could do something like Style <- Edge <- Width <- weight <- "Continuous mapping"
 default.style.url = paste(base.url,
                           "styles/default",
                           sep="/")
-GET(url=default.style.url)
+GET(url=default.style.url) ## shows a snippet of the json
 ```
 
 ```
 ## Response [http://localhost:1234/v1/styles/default]
-##   Date: 2016-03-21 18:43
+##   Date: 2016-03-21 19:44
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 9.83 kB
@@ -350,7 +351,7 @@ network.suid
 ```
 
 ```
-## [1] 1092
+## [1] 1612
 ```
 
 ```r
@@ -361,18 +362,6 @@ apply.style.url <-  paste(base.url,
                           style.name,
                           toString(network.suid),
                           sep="/")
-GET(apply.style.url)
-```
-
-```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/1092]
-##   Date: 2016-03-21 18:43
-##   Status: 404
-##   Content-Type: <unknown>
-## <EMPTY BODY>
-```
-
-```r
 # Edge Line Size Mapping
 min.weight <-  min(edge.attributes(graph_dune)$weight)
 max.weight <-  max(edge.attributes(graph_dune)$weight)
@@ -412,6 +401,8 @@ style.JSON <- toJSON(style)
 style.url <-  paste(base.url,
                     "styles",
                     sep="/")
+
+## sends the style to cytoscape. Available to apply to network
 POST(url = style.url,
      body = style.JSON,
      encode = "json")
@@ -419,7 +410,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 18:43
+##   Date: 2016-03-21 19:44
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 25 B
@@ -435,12 +426,14 @@ apply.style.url <-  paste(base.url,
                           style.name,
                           toString(network.suid),
                           sep="/")
+
+## applies the style to the network
 GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/1092]
-##   Date: 2016-03-21 18:43
+## Response [http://localhost:1234/v1/apply/styles/MyFirstStyle/1612]
+##   Date: 2016-03-21 19:44
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -504,7 +497,7 @@ network.suid
 ```
 
 ```
-## [1] 1196
+## [1] 1716
 ```
 
 ```r
@@ -514,23 +507,6 @@ layout.params = list(
   value=TRUE
 )
 
-layout.params.url = paste(base.url,
-                          "apply/layouts/kamada-kawai/parameters",
-                          sep="/")
-PUT(layout.params.url,
-    body=toJSON(list(layout.params)),
-    encode = "json")
-```
-
-```
-## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/parameters]
-##   Date: 2016-03-21 18:43
-##   Status: 200
-##   Content-Type: application/json
-## <EMPTY BODY>
-```
-
-```r
 apply.layout.url = paste(base.url,
                          "apply/layouts/kamada-kawai",
                          toString(network.suid),
@@ -539,8 +515,8 @@ GET(apply.layout.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/1196]
-##   Date: 2016-03-21 18:43
+## Response [http://localhost:1234/v1/apply/layouts/kamada-kawai/1716]
+##   Date: 2016-03-21 19:45
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 30 B
@@ -564,7 +540,7 @@ network.suid
 ```
 
 ```
-## [1] 1196
+## [1] 1716
 ```
 
 ```r
@@ -575,18 +551,9 @@ apply.style.url <-  paste(base.url,
                           style.name,
                           toString(network.suid),
                           sep="/")
-GET(apply.style.url)
-```
+#GET(apply.style.url)
 
-```
-## Response [http://localhost:1234/v1/apply/styles/new_style/1196]
-##   Date: 2016-03-21 18:43
-##   Status: 404
-##   Content-Type: <unknown>
-## <EMPTY BODY>
-```
 
-```r
 ## Could assign each Class a specific colour like this:
 
 class.mappings <-  list()
@@ -620,7 +587,7 @@ POST(url = style.url,
 
 ```
 ## Response [http://localhost:1234/v1/styles]
-##   Date: 2016-03-21 18:43
+##   Date: 2016-03-21 19:45
 ##   Status: 201
 ##   Content-Type: application/json
 ##   Size: 22 B
@@ -640,8 +607,8 @@ GET(apply.style.url)
 ```
 
 ```
-## Response [http://localhost:1234/v1/apply/styles/new_style/1196]
-##   Date: 2016-03-21 18:43
+## Response [http://localhost:1234/v1/apply/styles/new_style/1716]
+##   Date: 2016-03-21 19:45
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 35 B
@@ -699,7 +666,7 @@ network.image.url
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/1196/views/first.png?h=1500"
+## [1] "http://localhost:1234/v1/networks/1716/views/first.png?h=1500"
 ```
 
 ```r
@@ -714,7 +681,7 @@ network.image.url_pdf
 ```
 
 ```
-## [1] "http://localhost:1234/v1/networks/1196/views/first.pdf"
+## [1] "http://localhost:1234/v1/networks/1716/views/first.pdf"
 ```
 
 ```r
