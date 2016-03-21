@@ -19,7 +19,7 @@ Make sure Cytoscape is open while running these commands in R!
 
 # Make simple network in R
 
-Load necessary libraries for the tutorial. 
+Load necessary packages for the tutorial. 
 ```{r, message=FALSE}
 library(vegan)
 library(Hmisc)
