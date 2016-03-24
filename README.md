@@ -2,6 +2,9 @@
 
 Tutorial on using R to run cytoscape visualizations
 
+** UPDATE**: just found out about RCy3 which could greatly simplify the code used run Cytoscape from R: https://www.bioconductor.org/packages/release/bioc/html/RCy3.html
+- Will update the tutorial soon. 
+
 There are lots of great ways to make simple networks in R. A non-exhaustive list includes:
 
 - Diagrammer https://github.com/rich-iannone/DiagrammeR
@@ -22,4 +25,7 @@ The tutorial will:
 - Send the network to Cytoscape
 - Give a brief tour of the network in Cytoscape
 - Style network visualization using network properties and metadata
+ 
+
+
 
